@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  XML Settings Template file
+  
+  This file contains a list of setting keys and any non-sensitive values. Sensitive values are stored either
+  in override files or in environment variables.
+  
+  Code of C# classes storing the settings is generated during the build. The C# classes have the same name as the STX files.
+    
+  The override file is optional (the XML attribute and the file itself when the attribute is present).
+  That enables an override file to be present on a local dev machine but not checked-in to preserve confidential data.
+  On the CI server AppVeyor provides those settings via its secure environment variables.
+  
+  Value priority:
+    1) XML override
+    2) environment variables
+    3) XML template  
+-->
+<settings override="GlobalSettings3.sox">
+  <set key="Property1" value="value1"/>
+</settings>

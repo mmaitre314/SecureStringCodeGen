@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  XML Settings Override file
+
+  XML config file storing sensitive strings. Checked-in for testing only: in real-world it should
+  be added to source-control ignore lists.
+-->
+<settings>
+  <set key="Property1" value="valueA"/>
+</settings>
+

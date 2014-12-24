@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <ItemGroup>
+    <SettingsTemplateFiles Include="*.stx" />
+    <SettingsCleanupFiles Include="$(IntermediateOutputPath)*.stx.cs" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <CompileDependsOn>$(CompileDependsOn);CreateSettingsClass</CompileDependsOn> <!-- For Intellisense -->
+    <CleanDependsOn>$(CleanDependsOn);CleanSettingsClass</CleanDependsOn>
+  </PropertyGroup>
+
+  <Target Name="CreateSettingsClass"
+          BeforeTargets="ResolveAssemblyReferences"
+          Inputs="@(SettingsTemplateFiles)"
+          Outputs="@(SettingsTemplateFiles -> '$(IntermediateOutputPath)%(Filename).stx.cs')"
+          >
+    <Message Importance="high" Text="Generating %(SettingsTemplateFiles.Filename).stx.cs"/>
+    <ItemGroup>
+      <Compile Include="$(IntermediateOutputPath)%(SettingsTemplateFiles.Filename).stx.cs"/>
+    </ItemGroup>
+    <Exec Command="powershell.exe –NonInteractive –ExecutionPolicy Unrestricted -Command &quot;&amp; { &amp;&apos;$(MSBuildThisFileDirectory)New-SettingsClass.ps1&apos; &apos;%(SettingsTemplateFiles.FullPath)&apos; &apos;$(MSBuildProjectDirectory)\$(IntermediateOutputPath)%(SettingsTemplateFiles.Filename).stx.cs&apos; $(RootNamespace) %(SettingsTemplateFiles.Filename) } &quot;" IgnoreStandardErrorWarningFormat="true"/>
+  </Target>
+
+  <Target Name="CleanSettingsClass"
+          BeforeTargets="BeforeClean"
+          >
+    <Delete Files="@(SettingsCleanupFiles)"></Delete>
+  </Target>
+
+</Project>
