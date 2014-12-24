@@ -9,7 +9,7 @@ namespace UnitTests.WindowsPhone
         [TestMethod]
         public void WindowsPhone_TestBasic()
         {
-            Assert.AreEqual("valueA", GlobalSettings3.Property1); // Key+value in STX
+            Assert.AreEqual("valueA", GlobalSettings3.Property2); // Key+value in STX with SOX value override
         }
     }
 }

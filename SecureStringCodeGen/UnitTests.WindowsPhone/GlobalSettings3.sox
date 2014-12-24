@@ -6,6 +6,6 @@
   be added to source-control ignore lists.
 -->
 <settings>
-  <set key="Property1" value="valueA"/>
+  <set key="Property2" value="valueA"/>
 </settings>
 

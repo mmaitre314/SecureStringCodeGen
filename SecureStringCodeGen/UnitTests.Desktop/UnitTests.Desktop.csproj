@@ -59,6 +59,9 @@
     <None Include="GlobalSettings.stx" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="GlobalSettings4.stx" />
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

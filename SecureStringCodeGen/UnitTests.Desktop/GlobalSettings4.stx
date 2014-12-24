@@ -16,6 +16,6 @@
     2) environment variables
     3) XML template  
 -->
-<settings override="GlobalSettings3.sox">
-  <set key="Property2" value="value2"/>
+<settings override="GlobalSettings.sox" >
+  <set key="Property2"/>
 </settings>
