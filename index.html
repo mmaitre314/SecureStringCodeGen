@@ -131,6 +131,13 @@
 <li>C# classes are generated during the build process and changes to the .stx/.sox config files and to registry keys are not immediately reflected in Intellisense.</li>
 <li>Strings are not obfuscated in binaries, so attackers can recover them via decompilation or even Notepad. This project only avoids storing those strings in source control.</li>
 </ol>
+
+<h2>
+<a id="further-reading" class="anchor" href="#further-reading" aria-hidden="true"><span class="octicon octicon-link"></span></a>Further reading</h2>
+
+<p>If you are interested in improving code generation, <a href="http://www.hanselman.com/blog/T4TextTemplateTransformationToolkitCodeGenerationBestKeptVisualStudioSecret.aspx">T4 templates</a> are an option worth looking into. Here they were an overkill bringing in <a href="http://msdn.microsoft.com/en-us/library/ee847423.aspx">heavy dependencies</a> (the whole Modeling SDK), but are in general quite powerful.</p>
+
+<p>Another potential improvement would be replacing the PowerShell script implementing code generation by <a href="http://www.codeproject.com/Articles/42853/Strongly-typed-AppSettings-with-MSBuild">MSBuild tasks</a>. MSBuild takes quite some time to spin up PowerShell processes during the build.</p>
       </section>
 
     </div>
