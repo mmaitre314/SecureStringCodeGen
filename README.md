@@ -104,3 +104,4 @@ There are a couple of caveats in that process worth mentioning:
 
 1. C# classes are generated during the build process and changes to the .stx/.sox config files and to registry keys are not immediately reflected in Intellisense.
 2. Strings are not obfuscated in binaries, so attackers can recover them via decompilation or even Notepad. This project only avoids storing those strings in source control.
+
