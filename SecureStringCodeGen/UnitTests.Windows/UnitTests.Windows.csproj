@@ -19,7 +19,7 @@
     <PackageCertificateKeyFile>UnitTests.Windows_TemporaryKey.pfx</PackageCertificateKeyFile>
     <AppxBundle>Never</AppxBundle>
     <AllowCrossPlatformRetargeting>False</AllowCrossPlatformRetargeting>
-    <NuGetPackageImportStamp>0f50ad2d</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>766bdd05</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -143,12 +143,12 @@
     <VisualStudioVersion>12.0</VisualStudioVersion>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
-  <Import Project="..\packages\MMaitre.SecureStringCodeGen.1.0.3\build\MMaitre.SecureStringCodeGen.targets" Condition="Exists('..\packages\MMaitre.SecureStringCodeGen.1.0.3\build\MMaitre.SecureStringCodeGen.targets')" />
+  <Import Project="..\packages\MMaitre.SecureStringCodeGen.1.0.5\build\MMaitre.SecureStringCodeGen.targets" Condition="Exists('..\packages\MMaitre.SecureStringCodeGen.1.0.5\build\MMaitre.SecureStringCodeGen.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\MMaitre.SecureStringCodeGen.1.0.3\build\MMaitre.SecureStringCodeGen.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MMaitre.SecureStringCodeGen.1.0.3\build\MMaitre.SecureStringCodeGen.targets'))" />
+    <Error Condition="!Exists('..\packages\MMaitre.SecureStringCodeGen.1.0.5\build\MMaitre.SecureStringCodeGen.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MMaitre.SecureStringCodeGen.1.0.5\build\MMaitre.SecureStringCodeGen.targets'))" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

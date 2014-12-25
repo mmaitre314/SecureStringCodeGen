@@ -13,21 +13,9 @@ New-SettingsClass -input GlobalSettings.stx -output GlobalSettings.g.cs -namespa
 
 param([String]$inputPath, [String]$outputPath, [String]$namespace, [String]$class)
 
-# Load XML settings template
-$template = [xml](Get-Content $inputPath)
-$settings = $template.settings.set
-
-# Load optional XML settings override
-$overrideSettings = $null
-if (($template.settings.override -ne $null) -and (Test-Path $template.settings.override))
+function Update-Settings([ref]$settingsRef, $overrideSettings)
 {
-    $override = [xml](Get-Content $template.settings.override)
-    $overrideSettings = $override.settings.set
-}
-
-# Apply override values and environment variables
-if ($settings.Count -eq $null)
-{
+    $settings = $settingsRef.value
     $key = $settings.key
     
     # Replace value with environment variable if present
@@ -35,16 +23,13 @@ if ($settings.Count -eq $null)
     {
         $settings.SetAttribute("value", (Get-Item env:$key).Value)
     }
-
+    
     # Replace value with override value if present
     if ($overrideSettings -ne $null)
     {
-        if ($overrideSettings.Count -eq $null)
+        if (($overrideSettings.Count -eq $null) -and ($overrideSettings.key -eq $key))
         {
-            if ($overrideSettings.key -eq $key)
-            {
-                $settings.SetAttribute("value", $overrideSettings.value)
-            }
+            $settings.SetAttribute("value", $overrideSettings.value)
         }
         else
         {
@@ -62,43 +47,29 @@ if ($settings.Count -eq $null)
         throw "Could not find a value for setting $key"
     }    
 }
+
+# Load XML settings template
+$template = [xml](Get-Content $inputPath)
+$settings = $template.settings.set
+
+# Load optional XML settings override
+$overrideSettings = $null
+if (($template.settings.override -ne $null) -and (Test-Path $template.settings.override))
+{
+    $override = [xml](Get-Content $template.settings.override)
+    $overrideSettings = $override.settings.set
+}
+
+# Apply override values and environment variables
+if ($settings.Count -eq $null)
+{
+    Update-Settings ([ref]$settings) $overrideSettings
+}
 else
 {
     for ($i = 0; $i -lt $settings.Count; $i++)
     {
-        $key = $settings[$i].key
-
-        # Replace value with environment variable if present
-        if (Test-Path env:$key)
-        {
-            $settings[$i].SetAttribute("value", (Get-Item env:$key).Value)
-        }
-
-        # Replace value with override value if present
-        if ($overrideSettings -ne $null)
-        {
-            if ($overrideSettings.Count -eq $null)
-            {
-                if ($overrideSettings.key -eq $key)
-                {
-                    $settings[$i].SetAttribute("value", $overrideSettings.value)
-                }
-            }
-            else
-            {
-                $index = $overrideSettings.key.IndexOf($key)
-                if ($index -ge 0)
-                {
-                    $settings[$i].SetAttribute("value", $overrideSettings[$index].value)
-                }
-            }            
-        }
-
-        # Verify value present
-        if ($settings[$i].value -eq $null)
-        {
-            throw "Could not find a value for setting $key"
-        }
+        Update-Settings ([ref]$settings[$i]) $overrideSettings
     }
 }
 

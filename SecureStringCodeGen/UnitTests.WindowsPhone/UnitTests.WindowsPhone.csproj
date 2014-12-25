@@ -18,7 +18,7 @@
     <AppxBundle>Never</AppxBundle>
     <IsTargetingWindowsPhonePlatform>true</IsTargetingWindowsPhonePlatform>
     <AllowCrossPlatformRetargeting>False</AllowCrossPlatformRetargeting>
-    <NuGetPackageImportStamp>d7e666e2</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>deb48c11</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup>
     <AppXPackage>True</AppXPackage>
@@ -83,7 +83,9 @@
     </AppxManifest>
     <None Include="GlobalSettings3.sox" />
     <None Include="GlobalSettings3.stx" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="UnitTests.WindowsPhone_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
@@ -104,12 +106,12 @@
     <TargetPlatformIdentifier>WindowsPhoneApp</TargetPlatformIdentifier>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
-  <Import Project="..\packages\MMaitre.SecureStringCodeGen.1.0.3\build\MMaitre.SecureStringCodeGen.targets" Condition="Exists('..\packages\MMaitre.SecureStringCodeGen.1.0.3\build\MMaitre.SecureStringCodeGen.targets')" />
+  <Import Project="..\packages\MMaitre.SecureStringCodeGen.1.0.5\build\MMaitre.SecureStringCodeGen.targets" Condition="Exists('..\packages\MMaitre.SecureStringCodeGen.1.0.5\build\MMaitre.SecureStringCodeGen.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\MMaitre.SecureStringCodeGen.1.0.3\build\MMaitre.SecureStringCodeGen.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MMaitre.SecureStringCodeGen.1.0.3\build\MMaitre.SecureStringCodeGen.targets'))" />
+    <Error Condition="!Exists('..\packages\MMaitre.SecureStringCodeGen.1.0.5\build\MMaitre.SecureStringCodeGen.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MMaitre.SecureStringCodeGen.1.0.5\build\MMaitre.SecureStringCodeGen.targets'))" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
