@@ -1,0 +1,140 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Secure-String Code Generator by mmaitre314</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/mmaitre314/SecureStringCodeGen">View On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/mmaitre314/SecureStringCodeGen/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/mmaitre314/SecureStringCodeGen/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
+
+    <div class="wrapper">
+
+      <section>
+        <div id="title">
+          <h1>Secure-String Code Generator</h1>
+          <p>Store sensitive strings like API keys and connection strings out of source control</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/mmaitre314">mmaitre314</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
+        </div>
+
+        <p><a href="https://ci.appveyor.com/project/mmaitre314/securestringcodegen"><img src="https://ci.appveyor.com/api/projects/status/s08qgb4egku0pa3d?svg=true" alt="Build status"></a></p>
+
+<p>The client-side equivalent of Azure's web.config/app.config setting override. It avoids leaking confidential information like API keys and connection strings in open-source code repositories.</p>
+
+<h2>
+<a id="on-the-server-side" class="anchor" href="#on-the-server-side" aria-hidden="true"><span class="octicon octicon-link"></span></a>On the server side</h2>
+
+<p>On the server side there is already <a href="http://azure.microsoft.com/blog/2013/07/17/windows-azure-web-sites-how-application-strings-and-connection-strings-work/">an</a> <a href="http://www.asp.net/identity/overview/features-api/best-practices-for-deploying-passwords-and-other-sensitive-data-to-aspnet-and-azure">effective</a> <a href="http://typecastexception.com/post/2014/04/06/ASPNET-MVC-Keep-Private-Settings-Out-of-Source-Control.aspx">solution</a> to avoid checking in sensitive strings: Azure overrides settings in app.config and web.config files with values specified in the Azure portal. </p>
+
+<p>(AzureSettings.png)</p>
+
+<p>So a config file can be checked in with connection strings pointing to a local test server for initial testing:</p>
+
+<div class="highlight highlight-xml"><pre>&lt;<span class="pl-ent">configuration</span>&gt;
+  &lt;<span class="pl-ent">connectionStrings</span>&gt;
+    &lt;<span class="pl-ent">add</span> <span class="pl-e">name</span>=<span class="pl-s1"><span class="pl-pds">"</span>AzureWebJobsStorage<span class="pl-pds">"</span></span> <span class="pl-e">connectionString</span>=<span class="pl-s1"><span class="pl-pds">"</span>UseDevelopmentStorage=true;DevelopmentStorageProxyUri=http://127.0.0.1;<span class="pl-pds">"</span></span> /&gt;
+  &lt;/<span class="pl-ent">connectionStrings</span>&gt;
+  &lt;<span class="pl-ent">appSettings</span>&gt;
+    &lt;<span class="pl-ent">add</span> <span class="pl-e">key</span>=<span class="pl-s1"><span class="pl-pds">"</span>MS_MicrosoftClientID<span class="pl-pds">"</span></span> <span class="pl-e">value</span>=<span class="pl-s1"><span class="pl-pds">"</span>Overridden by portal settings<span class="pl-pds">"</span></span> /&gt;
+    &lt;<span class="pl-ent">add</span> <span class="pl-e">key</span>=<span class="pl-s1"><span class="pl-pds">"</span>MS_MicrosoftClientSecret<span class="pl-pds">"</span></span> <span class="pl-e">value</span>=<span class="pl-s1"><span class="pl-pds">"</span>Overridden by portal settings<span class="pl-pds">"</span></span> /&gt;
+  &lt;/<span class="pl-ent">appSettings</span>&gt;
+&lt;/<span class="pl-ent">configuration</span>&gt;</pre></div>
+
+<p>Later on during publication to the cloud those strings get replaced by new ones pointing to production servers:</p>
+
+<div class="highlight highlight-xml"><pre>&lt;<span class="pl-ent">configuration</span>&gt;
+  &lt;<span class="pl-ent">connectionStrings</span>&gt;
+    &lt;<span class="pl-ent">add</span> <span class="pl-e">name</span>=<span class="pl-s1"><span class="pl-pds">"</span>AzureWebJobsStorage<span class="pl-pds">"</span></span> <span class="pl-e">connectionString</span>=<span class="pl-s1"><span class="pl-pds">"</span>DefaultEndpointsProtocol=https;AccountName=someaccountname;AccountKey=somelongstring<span class="pl-pds">"</span></span> /&gt;
+  &lt;/<span class="pl-ent">connectionStrings</span>&gt;
+  &lt;<span class="pl-ent">appSettings</span>&gt;
+    &lt;<span class="pl-ent">add</span> <span class="pl-e">key</span>=<span class="pl-s1"><span class="pl-pds">"</span>MS_MicrosoftClientID<span class="pl-pds">"</span></span> <span class="pl-e">value</span>=<span class="pl-s1"><span class="pl-pds">"</span>0000000012345678<span class="pl-pds">"</span></span> /&gt;
+    &lt;<span class="pl-ent">add</span> <span class="pl-e">key</span>=<span class="pl-s1"><span class="pl-pds">"</span>MS_MicrosoftClientSecret<span class="pl-pds">"</span></span> <span class="pl-e">value</span>=<span class="pl-s1"><span class="pl-pds">"</span>anotherlongstring<span class="pl-pds">"</span></span> /&gt;
+  &lt;/<span class="pl-ent">appSettings</span>&gt;
+&lt;/<span class="pl-ent">configuration</span>&gt;</pre></div>
+
+<h2>
+<a id="on-the-client-side" class="anchor" href="#on-the-client-side" aria-hidden="true"><span class="octicon octicon-link"></span></a>On the client side</h2>
+
+<p>Things don't work so well on the client side, especially for Universal Windows/Windows Phone Store apps which do not even support app.config files.</p>
+
+<p>The AppVeyor CI build server provides the first half of a solution: like Azure, sensitive strings can be <a href="http://www.appveyor.com/docs/build-configuration#secure-variables">specified</a> in its portal.</p>
+
+<p>(AppVeyorSettings.png)</p>
+
+<p>They can also be provided as encrypted strings in checked-in YAML config files:</p>
+
+<div class="highlight highlight-yaml"><pre><span class="pl-s1"><span class="pl-ent">environment:</span></span>
+  <span class="pl-s1"><span class="pl-ent">Property2:</span></span>
+    <span class="pl-s1"><span class="pl-ent">secure:</span> <span class="pl-s1">F175Fzw/JJX3Kfc2gOkyCQr3ObuViwce+k3qOQQDd2Q=</span></span>
+  <span class="pl-s1"><span class="pl-ent">Property3:</span></span>
+    <span class="pl-s1"><span class="pl-ent">secure:</span> <span class="pl-s1">0jMqSEZxjEdWE2qLPcuR2SznHEZhbtB7heqbN/eIh3M=</span></span></pre></div>
+
+<p>The build server then sets those values as environment variables during the build process. </p>
+
+<p>What is missing is something which takes those environment variables and makes them available to app code during compilation. This is what this project is about.</p>
+
+<h2>
+<a id="secure-string-code-generation" class="anchor" href="#secure-string-code-generation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Secure-string code generation</h2>
+
+<p>To get started, install the <a href="https://www.nuget.org/packages/MMaitre.SecureStringCodeGen/">MMaitre.SecureStringCodeGen</a> NuGet package, add a couple of XML files to the VS project as decribed below, and build. The NuGet package adds an MSBuild target to the Visual Studio project which generates C# code during the build process. </p>
+
+<p>Following Azure's model, settings are split into two XML files, one which is checked in and one which is not. The one checked in (with .stx extension, as in "Settings Template XML") contains a list of keys, along with an optional set of non-sensitive values.</p>
+
+<div class="highlight highlight-xml"><pre>&lt;<span class="pl-ent">settings</span> <span class="pl-e">override</span>=<span class="pl-s1"><span class="pl-pds">"</span>GlobalSettings.sox<span class="pl-pds">"</span></span> &gt;
+  &lt;<span class="pl-ent">set</span> <span class="pl-e">key</span>=<span class="pl-s1"><span class="pl-pds">"</span>Property1<span class="pl-pds">"</span></span> <span class="pl-e">value</span>=<span class="pl-s1"><span class="pl-pds">"</span>value1<span class="pl-pds">"</span></span>/&gt;
+  &lt;<span class="pl-ent">set</span> <span class="pl-e">key</span>=<span class="pl-s1"><span class="pl-pds">"</span>Property2<span class="pl-pds">"</span></span> /&gt;
+&lt;/<span class="pl-ent">settings</span>&gt;</pre></div>
+
+<p>The one kept out of source control (with .sox extension, as in "Settings Override XML") contains sensitive strings to be used during dev builds on local machines.</p>
+
+<div class="highlight highlight-xml"><pre>&lt;<span class="pl-ent">settings</span>&gt;
+  &lt;<span class="pl-ent">set</span> <span class="pl-e">key</span>=<span class="pl-s1"><span class="pl-pds">"</span>Property1<span class="pl-pds">"</span></span> <span class="pl-e">value</span>=<span class="pl-s1"><span class="pl-pds">"</span>valueA<span class="pl-pds">"</span></span>/&gt;
+  &lt;<span class="pl-ent">set</span> <span class="pl-e">key</span>=<span class="pl-s1"><span class="pl-pds">"</span>Property2<span class="pl-pds">"</span></span> <span class="pl-e">value</span>=<span class="pl-s1"><span class="pl-pds">"</span>valueB<span class="pl-pds">"</span></span>/&gt;
+&lt;/<span class="pl-ent">settings</span>&gt;</pre></div>
+
+<p>Those sensitive strings are also provided to AppVeyor via portal/YAML.</p>
+
+<p>During the build, the XML files and environment variables are transformed into C# classes which the app can use just like regular code:</p>
+
+<div class="highlight highlight-c#"><pre><span class="pl-s">internal</span> <span class="pl-s">static</span> <span class="pl-s">class</span> <span class="pl-en">GlobalSettings</span>
+{
+    <span class="pl-s">public</span> <span class="pl-s">const</span> String Property1 = <span class="pl-s1"><span class="pl-pds">"</span>valueA<span class="pl-pds">"</span></span>;
+    <span class="pl-s">public</span> <span class="pl-s">const</span> String Property2 = <span class="pl-s1"><span class="pl-pds">"</span>valueB<span class="pl-pds">"</span></span>;
+}</pre></div>
+
+<p>The names of the classes match the names of the .stx files.</p>
+
+<p>There are a couple of caveats in that process worth mentioning:</p>
+
+<ol>
+<li>C# classes are generated during the build process and changes to the .stx/.sox config files and to registry keys are not immediately reflected in Intellisense.</li>
+<li>Strings are not obfuscated in binaries, so attackers can recover them via decompilation or even Notepad. This project only avoids storing those strings in source control.</li>
+</ol>
+      </section>
+
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
