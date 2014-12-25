@@ -108,6 +108,8 @@ There are a couple of caveats in that process worth mentioning:
 Further reading
 ---
 
+For more info about how the code works, see [this blog](http://mmaitre314.github.io/2014/12/25/secure-string-code-generator-a-breakdown.html).
+
 If you are interested in improving code generation, [T4 templates](http://www.hanselman.com/blog/T4TextTemplateTransformationToolkitCodeGenerationBestKeptVisualStudioSecret.aspx) are an option worth looking into. Here they were an overkill bringing in [heavy dependencies](http://msdn.microsoft.com/en-us/library/ee847423.aspx) (the whole Modeling SDK), but are in general quite powerful.
 
 Another potential improvement would be replacing the PowerShell script implementing code generation by [MSBuild tasks](http://www.codeproject.com/Articles/42853/Strongly-typed-AppSettings-with-MSBuild). MSBuild takes quite some time to spin up PowerShell processes during the build.
