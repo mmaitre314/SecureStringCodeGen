@@ -10,7 +10,7 @@ On the server side
 
 On the server side there is already [an](http://azure.microsoft.com/blog/2013/07/17/windows-azure-web-sites-how-application-strings-and-connection-strings-work/) [effective](http://www.asp.net/identity/overview/features-api/best-practices-for-deploying-passwords-and-other-sensitive-data-to-aspnet-and-azure) [solution](http://typecastexception.com/post/2014/04/06/ASPNET-MVC-Keep-Private-Settings-Out-of-Source-Control.aspx) to avoid checking in sensitive strings: Azure overrides settings in app.config and web.config files with values specified in the Azure portal. 
 
-(AzureSettings.png)
+![Azure settings](http://mmaitre314.github.io/SecureStringCodeGen/AzureSettings.PNG)
 
 So a config file can be checked in with connection strings pointing to a local test server for initial testing:
        
@@ -47,7 +47,7 @@ Things don't work so well on the client side, especially for Universal Windows/W
 
 The AppVeyor CI build server provides the first half of a solution: like Azure, sensitive strings can be [specified](http://www.appveyor.com/docs/build-configuration#secure-variables) in its portal.
 
-(AppVeyorSettings.png)
+![AppVeyor settings](http://mmaitre314.github.io/SecureStringCodeGen/AppVeyorSettings.PNG)
 
 They can also be provided as encrypted strings in checked-in YAML config files:
 
