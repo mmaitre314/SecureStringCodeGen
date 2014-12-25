@@ -66,9 +66,9 @@ What is missing is something which takes those environment variables and makes t
 Secure-string code generation
 ---
 
-To beging with, install the [MMaitre.SecureStringCodeGen](https://www.nuget.org/packages/MMaitre.SecureStringCodeGen/) NuGet package. This adds an MSBuild target to the Visual Studio project, which generates C# code during the build process.
+To get started, install the [MMaitre.SecureStringCodeGen](https://www.nuget.org/packages/MMaitre.SecureStringCodeGen/) NuGet package, add a couple of XML files to the VS project as decribed below, and build. The NuGet package adds an MSBuild target to the Visual Studio project which generates C# code during the build process. 
 
-Following Azure's model, settings are split into two XML files, one which is checked in and one which is not. The one checked in (with STX extension, as in "Settings Template XML") contains a list of keys, along with an optional set of non-sensitive values.
+Following Azure's model, settings are split into two XML files, one which is checked in and one which is not. The one checked in (with .stx extension, as in "Settings Template XML") contains a list of keys, along with an optional set of non-sensitive values.
 
 ```xml
 <settings override="GlobalSettings.sox" >
@@ -77,7 +77,7 @@ Following Azure's model, settings are split into two XML files, one which is che
 </settings>
 ```
 
-The one kept out of source control (with SOX extension, as in "Settings Override XML") contains sensitive strings to be used during dev builds on local machines.
+The one kept out of source control (with .sox extension, as in "Settings Override XML") contains sensitive strings to be used during dev builds on local machines.
 
 ```xml
 <settings>
