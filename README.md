@@ -1,4 +1,7 @@
-[![Build status](https://ci.appveyor.com/api/projects/status/s08qgb4egku0pa3d?svg=true)![Test status](http://teststatusbadge.azurewebsites.net/api/status/mmaitre314/securestringcodegen)](https://ci.appveyor.com/project/mmaitre314/securestringcodegen)
+[![Build status](https://ci.appveyor.com/api/projects/status/s08qgb4egku0pa3d?svg=true)
+![Test status](http://teststatusbadge.azurewebsites.net/api/status/mmaitre314/securestringcodegen)]
+(https://ci.appveyor.com/project/mmaitre314/securestringcodegen)
+[![NuGet package](http://mmaitre314.github.io/images/nuget.png)](https://www.nuget.org/packages/MMaitre.SecureStringCodeGen/)
 
 Secure-String Code Generator
 ===
